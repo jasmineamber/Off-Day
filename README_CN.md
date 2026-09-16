@@ -103,6 +103,14 @@ open "Off Day.xcodeproj"
 
 选择 `Off Day` Scheme，运行到模拟器或真机。
 
+### 使用 GitHub Actions 编译 IPA
+
+仓库提供了手动触发的 `.github/workflows/build-ipa.yml`。在 GitHub 的 `Actions` → `Build Unsigned IPA` → `Run workflow` 中运行任务，完成后从 Artifacts 下载 `Off-Day-unsigned.ipa`。
+
+该 workflow 只在 GitHub 的 macOS runner 上编译，不使用 Apple 证书或 provisioning profile。生成的 IPA 是未签名包，不能直接安装；请再使用 Sideloadly、AltStore/SideStore 等自签工具，用你的 Apple ID 或开发者证书完成签名和安装。
+
+项目声明了 iCloud 容器权限。个人 Apple ID 自签时通常无法获得该 iCloud 容器权限；如果签名工具提示 entitlement 不允许，需要在工具中移除 iCloud 相关 entitlement，或者改用拥有该容器权限的 Apple Developer Team 签名。
+
 ### 依赖库
 
 - [GRDB.swift](https://github.com/groue/GRDB.swift) `7.9.0`
