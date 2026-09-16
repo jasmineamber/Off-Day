@@ -9,7 +9,6 @@ permissions:
 env:
   PROJECT: Off Day.xcodeproj
   SCHEME: Off Day
-  ARCHIVE_PATH: ${{ runner.temp }}/Off Day.xcarchive
 
 jobs:
   build:
@@ -40,14 +39,15 @@ jobs:
       - name: Archive without Apple signing
         run: |
           set -euo pipefail
-          rm -rf "$ARCHIVE_PATH" "$RUNNER_TEMP/ipa" "$GITHUB_WORKSPACE"/*.ipa
+          archive_path="$RUNNER_TEMP/Off Day.xcarchive"
+          rm -rf "$archive_path" "$RUNNER_TEMP/ipa" "$GITHUB_WORKSPACE"/*.ipa
 
           xcodebuild archive \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
             -configuration Release \
             -destination 'generic/platform=iOS' \
-            -archivePath "$ARCHIVE_PATH" \
+            -archivePath "$archive_path" \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             -clonedSourcePackagesDirPath "$RUNNER_TEMP/SourcePackages" \
             CODE_SIGNING_ALLOWED=NO \
@@ -58,7 +58,7 @@ jobs:
       - name: Package IPA
         run: |
           set -euo pipefail
-          app_path="$ARCHIVE_PATH/Products/Applications/Off Day.app"
+          app_path="$RUNNER_TEMP/Off Day.xcarchive/Products/Applications/Off Day.app"
           test -d "$app_path"
 
           mkdir -p "$RUNNER_TEMP/ipa/Payload"
