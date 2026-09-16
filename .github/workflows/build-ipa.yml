@@ -50,6 +50,7 @@ jobs:
             -archivePath "$archive_path" \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             -clonedSourcePackagesDirPath "$RUNNER_TEMP/SourcePackages" \
+            ASSETCATALOG_COMPILER_APPICON_NAME=AppIconClassic \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             DEVELOPMENT_TEAM='' \
